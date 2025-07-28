@@ -2,12 +2,14 @@ import express from "express";
 import authRouter from "./Routes/AuthRoutes.js";
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
-
+import cors from "cors"
 
 
 const app =express()
 
+
 dotenv.config()
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 const URI =process.env.URI
@@ -19,7 +21,7 @@ mongoose.connect(URI)
 
 
 
-app.use("/auth" , authRouter)
+app.use("/api/auth" , authRouter)
 
 
 
