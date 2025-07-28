@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const AuthSchema = new mongoose.Schema({
     name :{
@@ -14,8 +15,11 @@ const AuthSchema = new mongoose.Schema({
         required : true
     },
     age : {
-        type : Number,
+        type : String,
         required : true
+    },
+    profileImage :{
+       type : String
     }
 })
 
