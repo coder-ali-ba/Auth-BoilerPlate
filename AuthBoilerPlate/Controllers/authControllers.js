@@ -3,6 +3,7 @@ import AuthModel from "../models/AuthenticationModel.js";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer"
 import { welcomeTemplate } from "../Templates/welComeTemplate.js";
+import jwt from "jsonwebtoken"
 
 const signUpController = async(req , res)=>{
     try {
@@ -59,6 +60,39 @@ const signUpController = async(req , res)=>{
     }    
 }
 
+
+const logInController =async(req , res) => {
+    try {
+        const body = req.body
+        const checkEmail =await AuthModel.findOne({email : body.email})
+        if(!checkEmail){
+           res.json({
+            message : "invalid email or password"
+           })
+        }
+        const checkPassword = await AuthModel.findOne({password : body.password}) 
+        if(!checkEmail){
+           res.json({
+            message : "invalid email or password"
+           })
+        }
+        const userId = checkEmail._id
+         const token =  jwt.sign(userId , process.env.SECRET_KEY)
+
+        res.json({
+          message : "Got APi",
+          token : token,
+          data : checkEmail
+        })
+    } catch (error) {
+        res.json({
+            message : error.message
+        })
+    }
+    
+}
+
 export {
-    signUpController
+    signUpController,
+    logInController
 }
