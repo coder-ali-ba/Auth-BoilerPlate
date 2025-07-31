@@ -1,11 +1,9 @@
-import express from "express";
-import uploadImageController from "../Controllers/UploadImageControllers.js";
+import express from 'express';
+import upload from '../MiddleWares/multer.js';
+import uploadImage from "../Controllers/UploadImageControllers.js"
+const uploadRouter = express.Router();
 
 
-
-
-const uploadRouter =express.Router()
-
-uploadRouter.post('/upload' , uploadImageController)
+uploadRouter.post('/upload', upload.single('image'), uploadImage);
 
 export default uploadRouter
