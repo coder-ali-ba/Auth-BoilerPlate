@@ -3,16 +3,19 @@ import authRouter from "./Routes/AuthRoutes.js";
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
 import cors from "cors"
-import { cloudinaryConfig } from "./Configs/CloudinaryConfig.js";
 import uploadRouter from "./Routes/UploadImageRoute.js";
+
+
 
 
 const app =express()
 
 
 dotenv.config()
-cloudinaryConfig()
 app.use(cors())
+
+
+
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 
@@ -28,6 +31,7 @@ mongoose.connect(URI)
 
 app.use("/api/auth" , authRouter)
 app.use("/api/image" , uploadRouter)
+
 
 
 
