@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import mongoose from "mongoose";
 import cors from "cors"
 import uploadRouter from "./Routes/UploadImageRoute.js";
+import dummyRouter from "./Routes/DummyRoute.js";
 
 
 
@@ -29,11 +30,16 @@ mongoose.connect(URI)
 
 app.use("/api/auth" , authRouter)
 app.use("/api/image" , uploadRouter)
+app.use("/api/dummy" , dummyRouter)
 
 
-
+app.get('/' , (req , res)=>{
+  res.send("server Upp")
+})
 
 
 app.listen(PORT , ()=>{
     console.log(`Server is running on http://localhost:${PORT}`);   
 })
+
+export default app

@@ -64,25 +64,28 @@ const signUpController = async(req , res)=>{
 const logInController =async(req , res) => {
     try {
         const body = req.body
-        const checkEmail =await AuthModel.findOne({email : body.email})
+        const {email , password} =body
+        const checkEmail =await AuthModel.findOne({email})
+        
+        
         if(!checkEmail){
-           res.json({
-            message : "invalid email or password"
+          return res.json({
+            message : "invalid email "
            })
         }
-        const checkPassword = await AuthModel.findOne({password : body.password}) 
-        if(!checkEmail){
-           res.json({
-            message : "invalid email or password"
+
+        const checkPass =await bcrypt.compare(password , checkEmail.password)
+        if(!checkPass){
+          return res.json({
+            message : "invalid  password"
            })
         }
-        const userId = checkEmail._id
-         const token =  jwt.sign(userId , process.env.SECRET_KEY)
+        
+         const token =  jwt.sign({ id: checkEmail._id } , process.env.SECRET_KEY)
 
         res.json({
           message : "Got APi",
           token : token,
-          data : checkEmail
         })
     } catch (error) {
         res.json({
