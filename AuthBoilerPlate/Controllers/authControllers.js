@@ -12,7 +12,7 @@ const signUpController = async(req , res)=>{
           
           
          if(ifExist){
-            return res.json({
+            return res.status(409).json({
                 message : "user Already Exist"
             })
          }
@@ -48,7 +48,7 @@ const signUpController = async(req , res)=>{
 
 
 
-         res.json({
+         res.status(200).json({
             message : "Signed Up Successfully",
             data : data
          })
@@ -69,26 +69,26 @@ const logInController =async(req , res) => {
         
         
         if(!checkEmail){
-          return res.json({
+          return res.status(401).json({
             message : "invalid email "
            })
         }
 
         const checkPass =await bcrypt.compare(password , checkEmail.password)
         if(!checkPass){
-          return res.json({
+          return res.status(401).json({
             message : "invalid  password"
            })
         }
         
          const token =  jwt.sign({ id: checkEmail._id } , process.env.SECRET_KEY)
 
-        res.json({
+        res.status(200).json({
           message : "Got APi",
           token : token,
         })
     } catch (error) {
-        res.json({
+        res.status(500).json({
             message : error.message
         })
     }

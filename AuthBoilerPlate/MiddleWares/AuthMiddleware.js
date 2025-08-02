@@ -13,13 +13,13 @@ const AuthCheck = (req , res , next) =>{
         req.user = isVarified
        return next()
   }else{
-      return res.json({
+      return res.ststus(401).json({
         status:false,
         message : "Authorization Error"
       })
   }    
   } catch (error) {
-    res.json({
+    res.status(403).json({
         status:false,
         message : error.message
       })
